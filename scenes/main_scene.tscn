@@ -1,0 +1,85 @@
+[gd_scene load_steps=11 format=3 uid="uid://bnb7nfa7yvsga"]
+
+[ext_resource type="Script" path="res://scenes/main_scene.gd" id="1_0j2ed"]
+[ext_resource type="Script" path="res://scenes/main_camera.gd" id="2_3ps8a"]
+[ext_resource type="Script" path="res://scenes/frog_character.gd" id="3_0gsli"]
+[ext_resource type="PackedScene" uid="uid://jorisvhasgg0" path="res://prefabs/frog/frog_with_texture.tscn" id="4_yj0aa"]
+[ext_resource type="Script" path="res://prefabs/hud_text_value.gd" id="5_sdkh4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c2rmx"]
+albedo_color = Color(0.572549, 0.352941, 0.152941, 1)
+disable_receive_shadows = true
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_rrspw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0bel6"]
+size = Vector3(4.24576, 1.04858, 3.14584)
+
+[sub_resource type="TextMesh" id="TextMesh_n8k45"]
+text = "A"
+font_size = 10
+horizontal_alignment = 0
+autowrap_mode = 1
+
+[sub_resource type="TextMesh" id="TextMesh_q544t"]
+text = "B"
+font_size = 10
+horizontal_alignment = 0
+
+[node name="MainScene" type="Node3D"]
+script = ExtResource("1_0j2ed")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.999327, 0.0366794, 0, -0.0366794, 0.999327, 0.0334129, 1.81308, 4.69853)
+current = true
+size = 12.702
+near = 0.004
+script = ExtResource("2_3ps8a")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.9815, -0.087519, 0.170286, 0, 0.889409, 0.457113, -0.19146, -0.448657, 0.872955, 6.49208, 6.77743, 8.34719)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+omni_range = 100.0
+omni_attenuation = 0.0439002
+
+[node name="Suelo" type="CSGBox3D" parent="."]
+material_override = SubResource("StandardMaterial3D_c2rmx")
+size = Vector3(10, 0.05, 10)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Suelo"]
+disable_mode = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Suelo/StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_rrspw")
+
+[node name="FrogCharacter" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.118442, 0.15055, 0.600327)
+disable_mode = 2
+floor_stop_on_slope = false
+floor_constant_speed = true
+floor_block_on_wall = false
+script = ExtResource("3_0gsli")
+
+[node name="frog_model" parent="FrogCharacter" instance=ExtResource("4_yj0aa")]
+
+[node name="frog_collision_shape" type="CollisionShape3D" parent="FrogCharacter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0483856, 0.411499, -0.414444)
+shape = SubResource("BoxShape3D_0bel6")
+
+[node name="DebugHUD" type="CanvasLayer" parent="."]
+follow_viewport_scale = 0.75
+
+[node name="charge_jump_counter_hud" type="MeshInstance2D" parent="DebugHUD"]
+position = Vector2(41, 43)
+scale = Vector2(531.22, -531.22)
+mesh = SubResource("TextMesh_n8k45")
+script = ExtResource("5_sdkh4")
+metadata/target_attribute = "charge_jump_counter"
+
+[node name="ticks_pressed_hud" type="MeshInstance2D" parent="DebugHUD"]
+position = Vector2(41, 108)
+scale = Vector2(531.22, -531.22)
+mesh = SubResource("TextMesh_q544t")
+script = ExtResource("5_sdkh4")
+metadata/target_attribute = "ticks_pressed"
