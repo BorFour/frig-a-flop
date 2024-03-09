@@ -4,8 +4,8 @@ extends CharacterBody3D
 const SPEED = 5.0
 const JUMP_VELOCITY = 10
 const ROTATE_VELOCITY = 20
-var ticks_pressed = 0
-var charge_jump_counter: float = 0
+var jump_force: float = 0
+var spin_velocity: float = 0
 
 @onready var collision_shape = $"./CollisionShape3D"
 
@@ -20,32 +20,32 @@ func _physics_process(delta):
 
 	# Handle jump
 	if Input.is_action_just_released("jump") and is_on_floor():
-		print("Jump! with %.2f" % charge_jump_counter)
-		velocity.y = JUMP_VELOCITY * charge_jump_counter
+		print("Jump! with %.2f" % jump_force)
+		velocity.y = JUMP_VELOCITY * jump_force
 
 	# Handle charge jump
 	if Input.is_action_pressed("jump") and is_on_floor():
-		charge_jump_counter += delta
+		jump_force += delta
 	else:
-		charge_jump_counter = 0
+		jump_force = 0
 
 	# Handle rotation
 	var jump_rotation = -delta * ROTATE_VELOCITY / 10
 
 	if is_on_floor_only():
-		ticks_pressed = 0
+		spin_velocity = 0
 	elif Input.is_action_pressed("front_spin"):
-		ticks_pressed += 1
+		spin_velocity += 1
 		jump_rotation *= 3
 	elif Input.is_action_pressed("back_spin"):
-		ticks_pressed = max(0, ticks_pressed - 3)
+		spin_velocity = max(0, spin_velocity - 3)
 	else:
-		ticks_pressed = max(0, ticks_pressed - 1)
+		spin_velocity = max(0, spin_velocity - 1)
 	
 	if not is_on_floor():
-		rotate_x(jump_rotation - ticks_pressed * 0.003)
+		rotate_x(jump_rotation - spin_velocity * 0.003)
 	elif is_on_floor_only():
-		ticks_pressed = 0
+		spin_velocity = 0
 		#rotation.x = 0
 		#position = Vector3(0, 0, 0)
 		rotate_toward(0, 0, 0)

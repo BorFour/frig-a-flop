@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://bnb7nfa7yvsga"]
+[gd_scene load_steps=10 format=3 uid="uid://bnb7nfa7yvsga"]
 
 [ext_resource type="Script" path="res://scenes/main_scene.gd" id="1_0j2ed"]
 [ext_resource type="Script" path="res://scenes/main_camera.gd" id="2_3ps8a"]
 [ext_resource type="Script" path="res://scenes/frog_character.gd" id="3_0gsli"]
 [ext_resource type="PackedScene" uid="uid://jorisvhasgg0" path="res://prefabs/frog/frog_with_texture.tscn" id="4_yj0aa"]
 [ext_resource type="Script" path="res://prefabs/hud_text_value.gd" id="5_sdkh4"]
+[ext_resource type="Texture2D" uid="uid://dxkna4waqjfrg" path="res://25637.png" id="6_ijl5x"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c2rmx"]
 albedo_color = Color(0.572549, 0.352941, 0.152941, 1)
@@ -14,17 +15,6 @@ disable_receive_shadows = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0bel6"]
 size = Vector3(4.24576, 1.04858, 3.14584)
-
-[sub_resource type="TextMesh" id="TextMesh_n8k45"]
-text = "A"
-font_size = 10
-horizontal_alignment = 0
-autowrap_mode = 1
-
-[sub_resource type="TextMesh" id="TextMesh_q544t"]
-text = "B"
-font_size = 10
-horizontal_alignment = 0
 
 [node name="MainScene" type="Node3D"]
 script = ExtResource("1_0j2ed")
@@ -67,19 +57,59 @@ script = ExtResource("3_0gsli")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0483856, 0.411499, -0.414444)
 shape = SubResource("BoxShape3D_0bel6")
 
-[node name="DebugHUD" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="."]
 follow_viewport_scale = 0.75
 
-[node name="charge_jump_counter_hud" type="MeshInstance2D" parent="DebugHUD"]
-position = Vector2(41, 43)
-scale = Vector2(531.22, -531.22)
-mesh = SubResource("TextMesh_n8k45")
-script = ExtResource("5_sdkh4")
-metadata/target_attribute = "charge_jump_counter"
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD"]
+custom_minimum_size = Vector2(30, 30)
+layout_direction = 2
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 55.0
+offset_bottom = -3.0
+grow_vertical = 2
+size_flags_vertical = 0
 
-[node name="ticks_pressed_hud" type="MeshInstance2D" parent="DebugHUD"]
-position = Vector2(41, 108)
-scale = Vector2(531.22, -531.22)
-mesh = SubResource("TextMesh_q544t")
+[node name="jump_force_hud" type="Label" parent="HUD/VBoxContainer"]
+layout_mode = 2
+text = "A"
 script = ExtResource("5_sdkh4")
-metadata/target_attribute = "ticks_pressed"
+metadata/target_attribute = "jump_force"
+
+[node name="spin_velocity_hud" type="Label" parent="HUD/VBoxContainer"]
+layout_mode = 2
+text = "B"
+script = ExtResource("5_sdkh4")
+metadata/target_attribute = "spin_velocity"
+
+[node name="BoxContainer" type="BoxContainer" parent="HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -74.0
+offset_right = 20.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="TouchScreenButton3" type="TouchScreenButton" parent="HUD/BoxContainer"]
+position = Vector2(-25, 57)
+rotation = -3.14159
+scale = Vector2(0.13, 0.13)
+texture_normal = ExtResource("6_ijl5x")
+shape_centered = false
+shape_visible = false
+action = "back_spin"
+
+[node name="TouchScreenButton2" type="TouchScreenButton" parent="HUD/BoxContainer"]
+position = Vector2(25, -12)
+scale = Vector2(0.13, 0.13)
+texture_normal = ExtResource("6_ijl5x")
+shape_centered = false
+shape_visible = false
+action = "front_spin"

@@ -1,7 +1,7 @@
-extends MeshInstance2D
+extends Label
 
 
-@onready var target: Node3D = $"../../FrogCharacter"
+@onready var target: Node3D = $"/root/MainScene/FrogCharacter"
  
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -10,4 +10,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	mesh.text = "%.2f" % target.get(get_meta("target_attribute")) if target != null else ""
+	var target_value = target.get(get_meta("target_attribute"))
+	
+	if target_value != null:
+		self.text = "%s: %.2f" % [get_meta("target_attribute"), target_value]
