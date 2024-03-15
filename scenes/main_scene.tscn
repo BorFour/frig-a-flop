@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bnb7nfa7yvsga"]
+[gd_scene load_steps=15 format=3 uid="uid://bnb7nfa7yvsga"]
 
 [ext_resource type="Script" path="res://scenes/main_scene.gd" id="1_0j2ed"]
 [ext_resource type="Script" path="res://scenes/main_camera.gd" id="2_3ps8a"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://jorisvhasgg0" path="res://prefabs/frog/frog_with_texture.tscn" id="4_yj0aa"]
 [ext_resource type="Script" path="res://prefabs/hud_text_value.gd" id="5_sdkh4"]
 [ext_resource type="Texture2D" uid="uid://dxkna4waqjfrg" path="res://25637.png" id="6_ijl5x"]
+[ext_resource type="Script" path="res://prefabs/jump_force_progress.gd" id="6_kj30q"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c2rmx"]
 albedo_color = Color(0.572549, 0.352941, 0.152941, 1)
@@ -21,6 +22,12 @@ font_size = 30
 
 [sub_resource type="LabelSettings" id="LabelSettings_r4utt"]
 font_size = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b6b4t"]
+bg_color = Color(0, 1, 0.266667, 0.0588235)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_olx2i"]
+bg_color = Color(0.133333, 0.780392, 0.305882, 1)
 
 [node name="MainScene" type="Node3D"]
 script = ExtResource("1_0j2ed")
@@ -67,6 +74,7 @@ shape = SubResource("BoxShape3D_0bel6")
 follow_viewport_enabled = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD"]
+visible = false
 custom_minimum_size = Vector2(30, 30)
 layout_direction = 2
 anchors_preset = 9
@@ -91,6 +99,27 @@ text = "B"
 label_settings = SubResource("LabelSettings_r4utt")
 script = ExtResource("5_sdkh4")
 metadata/target_attribute = "spin_velocity"
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="HUD"]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -107.0
+offset_top = 25.0
+offset_right = -56.0
+offset_bottom = -766.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="HUD/VBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_b6b4t")
+theme_override_styles/fill = SubResource("StyleBoxFlat_olx2i")
+value = 50.0
+fill_mode = 3
+script = ExtResource("6_kj30q")
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="HUD"]
 anchors_preset = 15
