@@ -6,7 +6,8 @@ const JUMP_VELOCITY: float = 10
 const ROTATE_VELOCITY: float = 20
 const MIN_JUMP_FORCE: float = 0.5
 const MIN_STANDING_X_ROTATION_OFFSET: float = 0.02
-const BACK_TO_STANDING_SPIN_VELOCITY: float = 10
+const BASE_BACK_TO_STANDING_SPIN_VELOCITY: float = 100
+const MAX_JUMP_FORCE: float = 10
 var jump_force: float = 0
 var spin_velocity: float = 0
 
@@ -32,7 +33,8 @@ func _physics_process(delta):
 
 	# Handle charge jump
 	if Input.is_action_pressed("jump") and is_on_floor():
-		jump_force += delta
+		jump_force += delta * 2
+		jump_force = min(jump_force, MAX_JUMP_FORCE)
 	else:
 		jump_force = 0
 
@@ -43,9 +45,9 @@ func _physics_process(delta):
 		base_rotation = 0
 		if abs(rotation.x) > MIN_STANDING_X_ROTATION_OFFSET:
 			spin_velocity = (
-				BACK_TO_STANDING_SPIN_VELOCITY
+				BASE_BACK_TO_STANDING_SPIN_VELOCITY * min(0.15, abs(rotation.x))
 				 if rotation.x > 0
-				else -BACK_TO_STANDING_SPIN_VELOCITY
+				else -BASE_BACK_TO_STANDING_SPIN_VELOCITY * min(0.15, abs(rotation.x))
 			)
 		else:
 			spin_velocity = 0

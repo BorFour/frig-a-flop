@@ -56,6 +56,10 @@ back_spin={
 
 pointing/emulate_touch_from_mouse=true
 
+[physics]
+
+3d/default_gravity=19.6
+
 [rendering]
 
 renderer/rendering_method="mobile"
