@@ -74,7 +74,6 @@ shape = SubResource("BoxShape3D_0bel6")
 follow_viewport_enabled = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD"]
-visible = false
 custom_minimum_size = Vector2(30, 30)
 layout_direction = 2
 anchors_preset = 9
@@ -85,6 +84,13 @@ offset_right = 635.0
 offset_bottom = -673.0
 grow_vertical = 2
 size_flags_vertical = 0
+
+[node name="last_jump_flips_hud" type="Label" parent="HUD/VBoxContainer"]
+layout_mode = 2
+text = "A"
+label_settings = SubResource("LabelSettings_j4acw")
+script = ExtResource("5_sdkh4")
+metadata/target_attribute = "last_jump_flip_count"
 
 [node name="jump_force_hud" type="Label" parent="HUD/VBoxContainer"]
 layout_mode = 2
