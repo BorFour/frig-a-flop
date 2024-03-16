@@ -48,7 +48,7 @@ omni_attenuation = 0.0439002
 
 [node name="Suelo" type="CSGBox3D" parent="."]
 material_override = SubResource("StandardMaterial3D_c2rmx")
-size = Vector3(10, 0.05, 10)
+size = Vector3(30, 0.05, 30)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Suelo"]
 disable_mode = 1

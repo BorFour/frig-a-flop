@@ -15,4 +15,5 @@ func _process(delta):
 		return
 
 	position.z = initial_camera_position.z + abs(target.position.y - initial_target_position.y)
+	position.y = initial_camera_position.y + 0.25 * abs(target.position.y - initial_target_position.y)
 	look_at(target.position)
