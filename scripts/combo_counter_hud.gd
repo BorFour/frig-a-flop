@@ -15,6 +15,10 @@ func _process(delta):
 
 func _on_frog_character_rip_combo(last_combo: int):
 	print("Handling RIP combo signal")
+	
+	if last_combo <= 0:
+		print("Last combo is 0. Skipping RIP combo text tween")
+		return
 
 	if combo_up_text_tween:
 		combo_up_text_tween.kill()
@@ -25,7 +29,7 @@ func _on_frog_character_rip_combo(last_combo: int):
 	new_color_transparent.a = 0
 
 	var decrease_combo_text = func(x: int):
-		text = "💀 RIP X" + str(x) + " combo 💀"
+		text = "💀 RIP combo X" + str(x) + " 💀"
 		
 	label_settings.font_color = Color.WHITE
 
@@ -35,7 +39,7 @@ func _on_frog_character_rip_combo(last_combo: int):
 	rip_combo_text_tween.tween_property(label_settings, "font_size", 50, 1).set_trans(Tween.TRANS_ELASTIC)
 	rip_combo_text_tween.tween_property(label_settings, "font_color", new_color, 2).set_trans(Tween.TRANS_CUBIC)
 	rip_combo_text_tween.tween_method(decrease_combo_text, last_combo, 0, 3).set_trans(Tween.TRANS_EXPO)
-	rip_combo_text_tween.tween_property(label_settings, "font_color", new_color_transparent, max(1, last_combo / 10)).set_delay(2)
+	rip_combo_text_tween.tween_property(label_settings, "font_color", new_color_transparent, max(1, last_combo / 10.0)).set_delay(2)
  
 func _on_frog_character_combo_up(new_combo: int):
 	print("Handling combo up signal")

@@ -26,7 +26,7 @@ var current_jump_flip_count: int = 0
 var last_jump_flip_count: int = 0
 
 # Score
-var current_combo: int = 30
+var current_combo: int = 0
 var score: int = 0
 
 # Signals

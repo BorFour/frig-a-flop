@@ -102,6 +102,7 @@ metadata/target_attribute = "score"
 metadata/cast_to_int = true
 
 [node name="current_combo_hud" type="Label" parent="HUD/VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "A"
 label_settings = SubResource("LabelSettings_j4acw")
