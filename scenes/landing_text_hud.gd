@@ -1,25 +1,30 @@
 extends Label
 
 
-func _on_frog_character_frog_landed(angle):
+func _on_frog_character_frog_landed(landing_quality: Commons.LandingQuality, landing_angle: float):
 	var new_text: String
 	var new_color: Color
 
-	if angle <= 0.1:
+	print(Commons.LandingQuality.PERFECT)
+
+	match landing_quality:
+		Commons.LandingQuality.PERFECT:
 		new_text = "Perfect!!!"
 		new_color = Color.GREEN
-	elif angle <= 0.25:
+		Commons.LandingQuality.NOICE:
 		new_text = "Noice!!"
 		new_color = Color.GREEN_YELLOW
-	elif angle <= 0.6:
+		Commons.LandingQuality.GOOD:
 		new_text = "Good!"
 		new_color = Color.DODGER_BLUE
-	elif angle <= 1.4:
+		Commons.LandingQuality.MEH:
 		new_text = "Meh"
 		new_color = Color.WHITE_SMOKE
-	else:
+		Commons.LandingQuality.FAIL:
 		new_text = "Fail"
 		new_color = Color.DARK_RED
+		_:
+			print("Unknown landing quality!!!!!")
 
 	text = new_text
 	label_settings.font_color = Color.WHITE
