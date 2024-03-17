@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-
+var rng = RandomNumberGenerator.new()
 const SPEED: float = 5.0
 const JUMP_VELOCITY: float = 10
 const ROTATE_VELOCITY: float = 20
@@ -12,6 +12,7 @@ var jump_force: float = 0
 var spin_velocity: float = 0
 
 @onready var collision_shape = $"./CollisionShape3D"
+@onready var initial_model_position: Vector3 =  $frog_model.position
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -21,6 +22,13 @@ const FLIP_COUNT_MARGIN_ANGLE: float = -PI/4  # if a rotation is missing this an
 var total_jump_rotation: float = FLIP_COUNT_MARGIN_ANGLE
 var current_jump_flip_count: int = 0
 var last_jump_flip_count: int = 0
+
+func charge_jump_animation():
+	$frog_model.position = (
+		initial_model_position
+		+ jump_force * Vector3(rng.randf(), rng.randf(), rng.randf()) * 0.02
+	)
+
 
 func _physics_process(delta):
 	# Add the gravity & calculate flips
@@ -41,11 +49,13 @@ func _physics_process(delta):
 		else:
 			print("Jump! with force of %.2f" % jump_force)
 			velocity.y = JUMP_VELOCITY * jump_force
+			$frog_model.position = initial_model_position
 
 	# Handle charge jump
 	if Input.is_action_pressed("jump") and is_on_floor():
 		jump_force += delta * 2
 		jump_force = min(jump_force, MAX_JUMP_FORCE)
+		charge_jump_animation()
 	else:
 		jump_force = 0
 
