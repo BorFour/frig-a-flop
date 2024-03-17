@@ -26,11 +26,14 @@ var current_jump_flip_count: int = 0
 var last_jump_flip_count: int = 0
 
 # Score
-var current_combo: int = 0
+var current_combo: int = 30
 var score: int = 0
 
 # Signals
 signal frog_landed(landing_quality: Commons.LandingQuality, landing_angle: float, score_increment: int)
+signal combo_up(new_combo: int)
+signal rip_combo(last_combo: int)
+
 
 func landing_quality_from_angle(angle: float) -> Commons.LandingQuality:
 	if angle <= 0.1:
@@ -57,10 +60,11 @@ func handle_landing():
 
 		if landing_quality >= Commons.LandingQuality.MEH:
 			current_combo += 1
+			combo_up.emit(current_combo)
 		else:
+			rip_combo.emit(current_combo)
 			current_combo = 0
 
-		var score_increment = int(last_jump_flip_count / landing_angle) * current_combo
 		score += score_increment
 	
 		frog_landed.emit(landing_quality, landing_angle, score_increment)
