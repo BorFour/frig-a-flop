@@ -9,20 +9,20 @@ func _on_frog_character_frog_landed(landing_quality: Commons.LandingQuality, lan
 
 	match landing_quality:
 		Commons.LandingQuality.PERFECT:
-		new_text = "Perfect!!!"
-		new_color = Color.GREEN
+			new_text = "Perfect!!!"
+			new_color = Color.GREEN
 		Commons.LandingQuality.NOICE:
-		new_text = "Noice!!"
-		new_color = Color.GREEN_YELLOW
+			new_text = "Noice!!"
+			new_color = Color.GREEN_YELLOW
 		Commons.LandingQuality.GOOD:
-		new_text = "Good!"
-		new_color = Color.DODGER_BLUE
+			new_text = "Good!"
+			new_color = Color.DODGER_BLUE
 		Commons.LandingQuality.MEH:
-		new_text = "Meh"
-		new_color = Color.WHITE_SMOKE
+			new_text = "Meh"
+			new_color = Color.WHITE_SMOKE
 		Commons.LandingQuality.FAIL:
-		new_text = "Fail"
-		new_color = Color.DARK_RED
+			new_text = "Fail"
+			new_color = Color.DARK_RED
 		_:
 			print("Unknown landing quality!!!!!")
 

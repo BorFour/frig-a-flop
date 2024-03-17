@@ -10,7 +10,16 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var target_value = target.get(get_meta("target_attribute"))
 	
-	if target_value != null:
-		self.text = "%s: %.2f" % [get_meta("target_attribute"), target_value]
+	var target_attribute: String = get_meta("target_attribute")
+	var cast_to_int = get_meta("cast_to_int")
+	var target_value = target.get(target_attribute)
+	
+	if target_value == null:
+		return
+
+	self.text = (
+		"%s: %d" % [target_attribute, int(target_value)]
+		if cast_to_int
+		else "%s: %.2f" % [target_attribute, target_value]
+	)

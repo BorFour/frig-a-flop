@@ -95,6 +95,7 @@ text = "A"
 label_settings = SubResource("LabelSettings_j4acw")
 script = ExtResource("5_sdkh4")
 metadata/target_attribute = "last_jump_flip_count"
+metadata/cast_to_int = true
 
 [node name="jump_force_hud" type="Label" parent="HUD/VBoxContainer"]
 layout_mode = 2
@@ -102,6 +103,7 @@ text = "A"
 label_settings = SubResource("LabelSettings_j4acw")
 script = ExtResource("5_sdkh4")
 metadata/target_attribute = "jump_force"
+metadata/cast_to_int = false
 
 [node name="spin_velocity_hud" type="Label" parent="HUD/VBoxContainer"]
 layout_mode = 2
@@ -109,6 +111,7 @@ text = "B"
 label_settings = SubResource("LabelSettings_r4utt")
 script = ExtResource("5_sdkh4")
 metadata/target_attribute = "spin_velocity"
+metadata/cast_to_int = false
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="HUD"]
 anchors_preset = 11
@@ -187,5 +190,6 @@ label_settings = SubResource("LabelSettings_7stur")
 horizontal_alignment = 1
 script = ExtResource("8_2qps2")
 metadata/target_attribute = "last_jump_flip_count"
+metadata/cast_to_int = true
 
 [connection signal="frog_landed" from="FrogCharacter" to="HUD/VBoxContainer4/landing_text_hud" method="_on_frog_character_frog_landed"]
