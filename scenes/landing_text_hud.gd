@@ -1,11 +1,13 @@
 extends Label
 
 
-func _on_frog_character_frog_landed(landing_quality: Commons.LandingQuality, landing_angle: float):
+func _on_frog_character_frog_landed(
+	landing_quality: Commons.LandingQuality,
+	landing_angle: float,
+	score_increment: int
+):
 	var new_text: String
 	var new_color: Color
-
-	print(Commons.LandingQuality.PERFECT)
 
 	match landing_quality:
 		Commons.LandingQuality.PERFECT:
@@ -25,6 +27,8 @@ func _on_frog_character_frog_landed(landing_quality: Commons.LandingQuality, lan
 			new_color = Color.DARK_RED
 		_:
 			print("Unknown landing quality!!!!!")
+			
+	new_text += "\n+ %d pts" % score_increment
 
 	text = new_text
 	label_settings.font_color = Color.WHITE

@@ -25,8 +25,12 @@ var total_jump_rotation: float = FLIP_COUNT_MARGIN_ANGLE
 var current_jump_flip_count: int = 0
 var last_jump_flip_count: int = 0
 
+# Score
+var current_combo: int = 0
+var score: int = 0
+
 # Signals
-signal frog_landed(landing_quality: Commons.LandingQuality, landing_angle: float)
+signal frog_landed(landing_quality: Commons.LandingQuality, landing_angle: float, score_increment: int)
 
 func landing_quality_from_angle(angle: float) -> Commons.LandingQuality:
 	if angle <= 0.1:
@@ -49,8 +53,17 @@ func charge_jump_animation():
 func handle_landing():
 	if initial_standing_rotation:
 		var landing_angle = (initial_standing_rotation - rotation).length()
-		var langing_quality = landing_quality_from_angle(landing_angle)
-		frog_landed.emit(langing_quality, landing_angle)
+		var landing_quality = landing_quality_from_angle(landing_angle)
+
+		if landing_quality >= Commons.LandingQuality.MEH:
+			current_combo += 1
+		else:
+			current_combo = 0
+
+		var score_increment = int(last_jump_flip_count / landing_angle) * current_combo
+		score += score_increment
+	
+		frog_landed.emit(landing_quality, landing_angle, score_increment)
 
 func _physics_process(delta):
 	# Add the gravity & calculate flips
@@ -120,3 +133,4 @@ func _physics_process(delta):
 		print("Landing detected!")
 		just_landed = true
 		handle_landing()
+
