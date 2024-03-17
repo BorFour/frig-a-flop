@@ -65,6 +65,7 @@ func handle_landing():
 			rip_combo.emit(current_combo)
 			current_combo = 0
 
+		var score_increment = int(last_jump_flip_count  * current_combo / landing_angle)
 		score += score_increment
 	
 		frog_landed.emit(landing_quality, landing_angle, score_increment)
