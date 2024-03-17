@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bnb7nfa7yvsga"]
+[gd_scene load_steps=15 format=3 uid="uid://bnb7nfa7yvsga"]
 
 [ext_resource type="Script" path="res://scenes/main_scene.gd" id="1_0j2ed"]
 [ext_resource type="Script" path="res://scenes/main_camera.gd" id="2_3ps8a"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://jorisvhasgg0" path="res://prefabs/frog/frog_with_texture.tscn" id="4_yj0aa"]
 [ext_resource type="Script" path="res://prefabs/hud_text_value.gd" id="5_sdkh4"]
 [ext_resource type="Texture2D" uid="uid://dxkna4waqjfrg" path="res://25637.png" id="6_ijl5x"]
+[ext_resource type="Script" path="res://prefabs/jump_force_progress.gd" id="6_kj30q"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c2rmx"]
 albedo_color = Color(0.572549, 0.352941, 0.152941, 1)
@@ -16,11 +17,23 @@ disable_receive_shadows = true
 [sub_resource type="BoxShape3D" id="BoxShape3D_0bel6"]
 size = Vector3(4.24576, 1.04858, 3.14584)
 
+[sub_resource type="LabelSettings" id="LabelSettings_j4acw"]
+font_size = 30
+
+[sub_resource type="LabelSettings" id="LabelSettings_r4utt"]
+font_size = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b6b4t"]
+bg_color = Color(0, 1, 0.266667, 0.0588235)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_olx2i"]
+bg_color = Color(0.133333, 0.780392, 0.305882, 1)
+
 [node name="MainScene" type="Node3D"]
 script = ExtResource("1_0j2ed")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.999327, 0.0366794, 0, -0.0366794, 0.999327, 0.0334129, 1.81308, 4.69853)
+transform = Transform3D(1, 0, 0, 0, 0.999327, 0.0366794, 0, -0.0366794, 0.999327, 0.0334129, 2.62518, 7.3641)
 current = true
 size = 12.702
 near = 0.004
@@ -35,7 +48,7 @@ omni_attenuation = 0.0439002
 
 [node name="Suelo" type="CSGBox3D" parent="."]
 material_override = SubResource("StandardMaterial3D_c2rmx")
-size = Vector3(10, 0.05, 10)
+size = Vector3(30, 0.05, 30)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Suelo"]
 disable_mode = 1
@@ -58,7 +71,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0483856, 0.411499, -0.4144
 shape = SubResource("BoxShape3D_0bel6")
 
 [node name="HUD" type="CanvasLayer" parent="."]
-follow_viewport_scale = 0.75
+follow_viewport_enabled = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HUD"]
 custom_minimum_size = Vector2(30, 30)
@@ -67,49 +80,86 @@ anchors_preset = 9
 anchor_bottom = 1.0
 offset_left = 25.0
 offset_top = 25.0
-offset_right = 55.0
-offset_bottom = -3.0
+offset_right = 635.0
+offset_bottom = -673.0
 grow_vertical = 2
 size_flags_vertical = 0
+
+[node name="last_jump_flips_hud" type="Label" parent="HUD/VBoxContainer"]
+layout_mode = 2
+text = "A"
+label_settings = SubResource("LabelSettings_j4acw")
+script = ExtResource("5_sdkh4")
+metadata/target_attribute = "last_jump_flip_count"
 
 [node name="jump_force_hud" type="Label" parent="HUD/VBoxContainer"]
 layout_mode = 2
 text = "A"
+label_settings = SubResource("LabelSettings_j4acw")
 script = ExtResource("5_sdkh4")
 metadata/target_attribute = "jump_force"
 
 [node name="spin_velocity_hud" type="Label" parent="HUD/VBoxContainer"]
 layout_mode = 2
 text = "B"
+label_settings = SubResource("LabelSettings_r4utt")
 script = ExtResource("5_sdkh4")
 metadata/target_attribute = "spin_velocity"
 
-[node name="BoxContainer" type="BoxContainer" parent="HUD"]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+[node name="VBoxContainer3" type="VBoxContainer" parent="HUD"]
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -74.0
-offset_right = 20.0
-offset_bottom = -34.0
+offset_left = -107.0
+offset_top = 25.0
+offset_right = -56.0
+offset_bottom = -766.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="HUD/VBoxContainer3"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/background = SubResource("StyleBoxFlat_b6b4t")
+theme_override_styles/fill = SubResource("StyleBoxFlat_olx2i")
+value = 50.0
+fill_mode = 3
+script = ExtResource("6_kj30q")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 891.0
+offset_right = -8.0
+offset_bottom = -3.0
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 
-[node name="TouchScreenButton3" type="TouchScreenButton" parent="HUD/BoxContainer"]
-position = Vector2(-25, 57)
-rotation = -3.14159
-scale = Vector2(0.13, 0.13)
-texture_normal = ExtResource("6_ijl5x")
-shape_centered = false
-shape_visible = false
-action = "back_spin"
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD/VBoxContainer2"]
+layout_mode = 2
+alignment = 1
 
-[node name="TouchScreenButton2" type="TouchScreenButton" parent="HUD/BoxContainer"]
-position = Vector2(25, -12)
-scale = Vector2(0.13, 0.13)
+[node name="BoxContainer" type="BoxContainer" parent="HUD/VBoxContainer2/HBoxContainer"]
+layout_direction = 2
+layout_mode = 2
+alignment = 1
+
+[node name="TouchScreenButton2" type="TouchScreenButton" parent="HUD/VBoxContainer2/HBoxContainer/BoxContainer"]
+position = Vector2(20, 85)
+scale = Vector2(0.25, 0.25)
 texture_normal = ExtResource("6_ijl5x")
 shape_centered = false
 shape_visible = false
 action = "front_spin"
+
+[node name="TouchScreenButton3" type="TouchScreenButton" parent="HUD/VBoxContainer2/HBoxContainer/BoxContainer"]
+position = Vector2(-11, 214)
+rotation = -3.14159
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("6_ijl5x")
+shape_centered = false
+shape_visible = false
+action = "back_spin"
