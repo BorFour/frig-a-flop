@@ -10,9 +10,11 @@ const BASE_BACK_TO_STANDING_SPIN_VELOCITY: float = 100
 const MAX_JUMP_FORCE: float = 10
 var jump_force: float = 0
 var spin_velocity: float = 0
+var just_landed: bool = false
 
 @onready var collision_shape = $"./CollisionShape3D"
 @onready var initial_model_position: Vector3 =  $frog_model.position
+var initial_standing_rotation: Vector3
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -23,12 +25,20 @@ var total_jump_rotation: float = FLIP_COUNT_MARGIN_ANGLE
 var current_jump_flip_count: int = 0
 var last_jump_flip_count: int = 0
 
+# Signals
+signal frog_landed(angle)
+
+
 func charge_jump_animation():
 	$frog_model.position = (
 		initial_model_position
 		+ jump_force * Vector3(rng.randf(), rng.randf(), rng.randf()) * 0.02
 	)
 
+func handle_landing():
+	if initial_standing_rotation:
+		var landing_angle = (initial_standing_rotation - rotation).length()
+		frog_landed.emit(landing_angle)
 
 func _physics_process(delta):
 	# Add the gravity & calculate flips
@@ -43,6 +53,7 @@ func _physics_process(delta):
 
 	# Handle jump
 	if Input.is_action_just_released("jump") and is_on_floor():
+		
 		if jump_force < MIN_JUMP_FORCE:
 			print("Not enough jump force %.2f" % jump_force)
 			jump_force = 0
@@ -50,6 +61,7 @@ func _physics_process(delta):
 			print("Jump! with force of %.2f" % jump_force)
 			velocity.y = JUMP_VELOCITY * jump_force
 			$frog_model.position = initial_model_position
+			just_landed = false
 
 	# Handle charge jump
 	if Input.is_action_pressed("jump") and is_on_floor():
@@ -72,6 +84,10 @@ func _physics_process(delta):
 			)
 		else:
 			spin_velocity = 0
+
+			if not initial_standing_rotation:
+				initial_standing_rotation = rotation
+				print("Initial standing rotation set to: ", rotation)
 	elif Input.is_action_pressed("front_spin"):
 		spin_velocity += 1
 		base_rotation *= 3
@@ -86,4 +102,9 @@ func _physics_process(delta):
 	rotate_x(final_step_rotation)
 	
 	# Needed by the physics engine I think
-	move_and_slide()
+	var collision_detected = move_and_slide()
+	
+	if collision_detected and not just_landed and last_jump_flip_count > 0:
+		print("Landing detected!")
+		just_landed = true
+		handle_landing()

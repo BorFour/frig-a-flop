@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bnb7nfa7yvsga"]
+[gd_scene load_steps=17 format=3 uid="uid://bnb7nfa7yvsga"]
 
 [ext_resource type="Script" path="res://scenes/main_scene.gd" id="1_0j2ed"]
 [ext_resource type="Script" path="res://scenes/main_camera.gd" id="2_3ps8a"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://prefabs/hud_text_value.gd" id="5_sdkh4"]
 [ext_resource type="Texture2D" uid="uid://dxkna4waqjfrg" path="res://25637.png" id="6_ijl5x"]
 [ext_resource type="Script" path="res://prefabs/jump_force_progress.gd" id="6_kj30q"]
+[ext_resource type="Script" path="res://scenes/landing_text_hud.gd" id="8_2qps2"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c2rmx"]
 albedo_color = Color(0.572549, 0.352941, 0.152941, 1)
@@ -28,6 +29,9 @@ bg_color = Color(0, 1, 0.266667, 0.0588235)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_olx2i"]
 bg_color = Color(0.133333, 0.780392, 0.305882, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_7stur"]
+font_size = 30
 
 [node name="MainScene" type="Node3D"]
 script = ExtResource("1_0j2ed")
@@ -163,3 +167,25 @@ texture_normal = ExtResource("6_ijl5x")
 shape_centered = false
 shape_visible = false
 action = "back_spin"
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="HUD"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -146.0
+offset_top = -265.0
+offset_right = 144.0
+offset_bottom = -102.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="landing_text_hud" type="Label" parent="HUD/VBoxContainer4"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_7stur")
+horizontal_alignment = 1
+script = ExtResource("8_2qps2")
+metadata/target_attribute = "last_jump_flip_count"
+
+[connection signal="frog_landed" from="FrogCharacter" to="HUD/VBoxContainer4/landing_text_hud" method="_on_frog_character_frog_landed"]
