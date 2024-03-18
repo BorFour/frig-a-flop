@@ -93,46 +93,50 @@ offset_bottom = -673.0
 grow_vertical = 2
 size_flags_vertical = 0
 
-[node name="score_hud" type="Label" parent="HUD/VBoxContainer"]
+[node name="score_hud" type="Label" parent="HUD/VBoxContainer" node_paths=PackedStringArray("target")]
 layout_mode = 2
 text = "A"
 label_settings = SubResource("LabelSettings_j4acw")
 script = ExtResource("5_sdkh4")
+target = NodePath("../../../FrogCharacter")
 metadata/target_attribute = "score"
 metadata/cast_to_int = true
 
-[node name="current_combo_hud" type="Label" parent="HUD/VBoxContainer"]
-visible = false
+[node name="current_combo_hud" type="Label" parent="HUD/VBoxContainer" node_paths=PackedStringArray("target")]
 layout_mode = 2
 text = "A"
 label_settings = SubResource("LabelSettings_j4acw")
 script = ExtResource("5_sdkh4")
+target = NodePath("../../../FrogCharacter")
 metadata/target_attribute = "current_combo"
 metadata/cast_to_int = true
 
-[node name="last_jump_flips_hud" type="Label" parent="HUD/VBoxContainer"]
+[node name="last_jump_flips_hud" type="Label" parent="HUD/VBoxContainer" node_paths=PackedStringArray("target")]
 layout_mode = 2
 text = "A"
 label_settings = SubResource("LabelSettings_j4acw")
 script = ExtResource("5_sdkh4")
+target = NodePath("../../../FrogCharacter")
 metadata/target_attribute = "last_jump_flip_count"
 metadata/cast_to_int = true
 
-[node name="jump_force_hud" type="Label" parent="HUD/VBoxContainer"]
+[node name="jump_force_hud" type="Label" parent="HUD/VBoxContainer" node_paths=PackedStringArray("target")]
 visible = false
 layout_mode = 2
 text = "A"
 label_settings = SubResource("LabelSettings_j4acw")
 script = ExtResource("5_sdkh4")
+target = NodePath("../../../FrogCharacter")
 metadata/target_attribute = "jump_force"
 metadata/cast_to_int = false
 
-[node name="spin_velocity_hud" type="Label" parent="HUD/VBoxContainer"]
+[node name="spin_velocity_hud" type="Label" parent="HUD/VBoxContainer" node_paths=PackedStringArray("target")]
 visible = false
 layout_mode = 2
 text = "B"
 label_settings = SubResource("LabelSettings_r4utt")
 script = ExtResource("5_sdkh4")
+target = NodePath("../../../FrogCharacter")
 metadata/target_attribute = "spin_velocity"
 metadata/cast_to_int = false
 
