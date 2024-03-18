@@ -1,2 +1,6 @@
 # Normalize EOL for all files that Git considers text files.
 * text=auto eol=lf
+
+# Ignore everything in the exports/ and blender/ directories
+exports/* linguist-vendored
+blender/* linguist-vendored
