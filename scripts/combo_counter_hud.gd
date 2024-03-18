@@ -29,7 +29,7 @@ func _on_frog_character_rip_combo(last_combo: int):
 	new_color_transparent.a = 0
 
 	var decrease_combo_text = func(x: int):
-		text = "💀 RIP combo X" + str(x) + " 💀"
+		text = "RIP combo X" + str(x)
 		
 	label_settings.font_color = Color.WHITE
 
