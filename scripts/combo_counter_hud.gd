@@ -24,7 +24,7 @@ func _on_frog_character_rip_combo(last_combo: int):
 		combo_up_text_tween.kill()
 	
 	# Color for the fade out
-	var new_color: Color = Color.DARK_RED
+	var new_color: Color = Color.RED
 	var new_color_transparent: Color = new_color
 	new_color_transparent.a = 0
 

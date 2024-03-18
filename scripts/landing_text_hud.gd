@@ -24,7 +24,7 @@ func _on_frog_character_frog_landed(
 			new_color = Color.WHITE_SMOKE
 		Commons.LandingQuality.FAIL:
 			new_text = "Fail"
-			new_color = Color.DARK_RED
+			new_color = Color.RED
 		_:
 			print("Unknown landing quality!!!!!")
 			
